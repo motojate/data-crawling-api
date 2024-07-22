@@ -16,19 +16,24 @@ export class CrawlerService {
       const page = await browser.newPage();
 
       await page.goto(url);
+
+      // TODO - 실제 데이터에 맞게 수정.
       const headlines = await page.evaluate(() => {
         const h1Elements = Array.from(document.querySelectorAll('h1'));
         return h1Elements.map((element) => element.textContent);
       });
 
       await browser.close();
+      const cachedData = await this.cacheManager.get<string[]>(this.cacheKey);
+
+      await this.cacheManager.set(this.cacheKey, [...cachedData, ...headlines]);
       return headlines;
     } catch (error) {
       console.error(error);
     }
   }
 
-  isFullCache() {
+  isCacheFull() {
     return this.cacheSize >= this.cacheLimit;
   }
 }
