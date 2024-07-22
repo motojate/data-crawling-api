@@ -27,4 +27,8 @@ export class CrawlerService {
       console.error(error);
     }
   }
+
+  isFullCache() {
+    return this.cacheSize >= this.cacheLimit;
+  }
 }
