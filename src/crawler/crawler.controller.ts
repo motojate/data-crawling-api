@@ -7,7 +7,6 @@ export class CrawlerController {
   @Get()
   async crawler(@Query('url') url: string) {
     const result = await this.crawlerService.fetchData(url);
-    console.log(result);
     return result;
   }
 }
